@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import { Routes, Route } from "react-router-dom";
 import CartDetails from "./components/CartDetails";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<CartDetails />} />
       </Routes>
+      <Toaster />
     </>
   );
 }

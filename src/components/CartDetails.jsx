@@ -11,12 +11,14 @@ import {
   removeSingleItem,
   emptycart,
 } from "../redux/features/CartSlice";
+import toast from "react-hot-toast";
 
 const CartDetails = () => {
   const { cart } = useSelector((state) => state.allCart);
   console.log(cart);
 
   const [totalprice, settotalprice] = useState(0);
+  const [totalQuantity, settotalQuantity] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -30,10 +32,12 @@ const CartDetails = () => {
 
   const handleDelete = (e) => {
     dispatch(removeFromCart(e));
+    toast.success("Item removed from your cart");
   };
 
   const emptyCart = () => {
     dispatch(emptycart());
+    toast.success("Your cart is empty");
   };
 
   const total = () => {
@@ -44,9 +48,21 @@ const CartDetails = () => {
     });
   };
 
+  const totalQnty = () => {
+    let T_qnty = 0;
+    cart.map((ele, idx) => {
+      T_qnty = ele.qnty + T_qnty;
+      settotalQuantity(T_qnty);
+    });
+  };
+
   useEffect(() => {
     total();
   }, [total]);
+
+  useEffect(() => {
+    totalQnty();
+  }, [totalQnty]);
 
   return (
     <>
@@ -176,7 +192,7 @@ const CartDetails = () => {
                       <th colSpan={3}>&nbsp;</th>
                       <th>
                         Items in cart <span className="ml-2 mr-2">:</span>
-                        <span className="text-danger">4</span>
+                        <span className="text-danger">{totalQuantity}</span>
                       </th>
                       <th className="text-right">
                         Total Price <span className="ml-2 mr-2">:</span>
